@@ -63,8 +63,10 @@ fn main() {
     }
 
     cc_config_build
-            .out_dir(out.join("lib"))
-            .compile("lua53");
+        .cpp(true)
+        .include(PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc"))
+        .out_dir(out.join("lib"))
+        .compile("lua53");
 
     let bindings = bindgen::builder()
         .header("lua/lua.h")
