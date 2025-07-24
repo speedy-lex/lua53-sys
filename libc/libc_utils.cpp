@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
+#include <locale.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -156,10 +157,6 @@ int fclose(FILE *) {
 	return 0;
 }
 
-int fflush(FILE *f) {
-	return 0;
-}
-
 // stdlib.h (-strtod)
 
 int abs (int x) {
@@ -195,6 +192,40 @@ int *__errno_location(void) {
 	return &error;
 }
 
+// locale.h
+
+static struct lconv locale = {
+	const_cast<char*>("."),
+	const_cast<char*>(","),
+	const_cast<char*>("\3"),
+
+	const_cast<char*>("USD "),
+	const_cast<char*>("$"),
+	const_cast<char*>("."),
+	const_cast<char*>(","),
+	const_cast<char*>("\3"),
+	const_cast<char*>(""),
+	const_cast<char*>("-"),
+
+	2,
+	2,
+	1,
+	0,
+	1,
+	0,
+	1,
+	1,
+
+	1,
+	0,
+	1,
+	0,
+	1,
+	1
+};
+struct lconv *localeconv(void) {
+	return &locale;
+}
 
 #ifdef __cplusplus
 }
