@@ -37,6 +37,9 @@
 /* Active Lua function (given call info) */
 #define ci_func(ci)		(clLvalue((ci)->func))
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static const char *funcnamefromcode (lua_State *L, CallInfo *ci,
                                     const char **name);
@@ -698,3 +701,6 @@ void luaG_traceexec (lua_State *L) {
   }
 }
 
+#ifdef __cplusplus
+}
+#endif

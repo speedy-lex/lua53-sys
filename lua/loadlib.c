@@ -24,6 +24,10 @@
 #include "lualib.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
 ** LUA_IGMARK is a mark to ignore all before it when building the
 ** luaopen_ function name.
@@ -788,3 +792,6 @@ LUAMOD_API int luaopen_package (lua_State *L) {
   return 1;  /* return 'package' table */
 }
 
+#ifdef __cplusplus
+}
+#endif

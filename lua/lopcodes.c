@@ -14,6 +14,9 @@
 
 #include "lopcodes.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* ORDER OP */
 
@@ -122,3 +125,6 @@ LUAI_DDEF const lu_byte luaP_opmodes[NUM_OPCODES] = {
  ,opmode(0, 0, OpArgU, OpArgU, iAx)		/* OP_EXTRAARG */
 };
 
+#ifdef __cplusplus
+}
+#endif

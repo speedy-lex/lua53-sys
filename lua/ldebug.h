@@ -17,6 +17,9 @@
 
 #define resethookcount(L)	(L->hookcount = L->basehookcount)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 LUAI_FUNC l_noret luaG_typeerror (lua_State *L, const TValue *o,
                                                 const char *opname);
@@ -35,5 +38,8 @@ LUAI_FUNC const char *luaG_addinfo (lua_State *L, const char *msg,
 LUAI_FUNC l_noret luaG_errormsg (lua_State *L);
 LUAI_FUNC void luaG_traceexec (lua_State *L);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

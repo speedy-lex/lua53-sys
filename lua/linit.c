@@ -34,6 +34,9 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** these libs are loaded by lua.c and are readily available to any Lua
@@ -66,3 +69,6 @@ LUALIB_API void luaL_openlibs (lua_State *L) {
   }
 }
 
+#ifdef __cplusplus
+}
+#endif

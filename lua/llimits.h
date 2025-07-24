@@ -14,6 +14,10 @@
 
 #include "lua.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
 ** 'lu_mem' and 'l_mem' are unsigned/signed integers big enough to count
 ** the total memory used by Lua (in bytes). Usually, 'size_t' and
@@ -318,6 +322,10 @@ typedef unsigned long Instruction;
 #else
 #define condchangemem(L,pre,pos)  \
 	{ if (G(L)->gcrunning) { pre; luaC_fullgc(L, 0); pos; } }
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif

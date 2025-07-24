@@ -21,6 +21,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** {==================================================================
@@ -407,3 +410,6 @@ LUAMOD_API int luaopen_os (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

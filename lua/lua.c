@@ -19,7 +19,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(LUA_PROMPT)
 #define LUA_PROMPT		"> "
@@ -610,3 +612,6 @@ int main (int argc, char **argv) {
   return (result && status == LUA_OK) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
+#ifdef __cplusplus
+}
+#endif

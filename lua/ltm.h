@@ -10,6 +10,9 @@
 
 #include "lobject.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 * WARNING: if you change the order of this enumeration,
@@ -72,5 +75,8 @@ LUAI_FUNC int luaT_callorderTM (lua_State *L, const TValue *p1,
                                 const TValue *p2, TMS event);
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

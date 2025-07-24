@@ -19,6 +19,9 @@
 #include "lstate.h"
 #include "lzio.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 int luaZ_fill (ZIO *z) {
   size_t size;
@@ -66,3 +69,6 @@ size_t luaZ_read (ZIO *z, void *b, size_t n) {
   return 0;
 }
 
+#ifdef __cplusplus
+}
+#endif

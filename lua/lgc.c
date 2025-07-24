@@ -25,6 +25,9 @@
 #include "ltable.h"
 #include "ltm.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** internal state for collector while inside the atomic phase. The
@@ -1176,4 +1179,6 @@ void luaC_fullgc (lua_State *L, int isemergency) {
 
 /* }====================================================== */
 
-
+#ifdef __cplusplus
+}
+#endif

@@ -30,6 +30,9 @@
 #include "ltm.h"
 #include "lvm.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* limit for table tag-method chains (to avoid loops) */
 #define MAXTAGLOOP	2000
@@ -1320,3 +1323,6 @@ void luaV_execute (lua_State *L) {
 
 /* }================================================================== */
 
+#ifdef __cplusplus
+}
+#endif

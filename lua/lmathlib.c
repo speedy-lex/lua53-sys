@@ -35,6 +35,9 @@
 #endif
 #endif				/* } */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static int math_abs (lua_State *L) {
   if (lua_isinteger(L, 1)) {
@@ -408,3 +411,6 @@ LUAMOD_API int luaopen_math (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

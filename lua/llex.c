@@ -28,6 +28,9 @@
 #include "lzio.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define next(ls) (ls->current = zgetc(ls->z))
 
@@ -566,3 +569,6 @@ int luaX_lookahead (LexState *ls) {
   return ls->lookahead.token;
 }
 
+#ifdef __cplusplus
+}
+#endif

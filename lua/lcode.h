@@ -19,6 +19,9 @@
 */
 #define NO_JUMP (-1)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** grep "ORDER OPR" if you change these enums  (ORDER OP)
@@ -84,5 +87,8 @@ LUAI_FUNC void luaK_posfix (FuncState *fs, BinOpr op, expdesc *v1,
                             expdesc *v2, int line);
 LUAI_FUNC void luaK_setlist (FuncState *fs, int base, int nelems, int tostore);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

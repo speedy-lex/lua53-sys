@@ -11,6 +11,9 @@
 #include "lobject.h"
 #include "lzio.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** Expression and variable descriptor.
@@ -129,5 +132,8 @@ typedef struct FuncState {
 LUAI_FUNC LClosure *luaY_parser (lua_State *L, ZIO *z, Mbuffer *buff,
                                  Dyndata *dyd, const char *name, int firstchar);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

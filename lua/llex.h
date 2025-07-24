@@ -18,6 +18,9 @@
 #define LUA_ENV		"_ENV"
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 * WARNING: if you change the order of this enumeration,
@@ -81,5 +84,8 @@ LUAI_FUNC int luaX_lookahead (LexState *ls);
 LUAI_FUNC l_noret luaX_syntaxerror (LexState *ls, const char *s);
 LUAI_FUNC const char *luaX_token2str (LexState *ls, int token);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

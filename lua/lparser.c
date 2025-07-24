@@ -28,6 +28,9 @@
 #include "ltable.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* maximum number of local variables per function (must be smaller
    than 250, due to the bytecode format) */
@@ -1651,3 +1654,6 @@ LClosure *luaY_parser (lua_State *L, ZIO *z, Mbuffer *buff,
   return cl;  /* closure is on the stack, too */
 }
 
+#ifdef __cplusplus
+}
+#endif

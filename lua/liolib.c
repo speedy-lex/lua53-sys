@@ -23,7 +23,9 @@
 #include "lualib.h"
 
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** Change this macro to accept other modes for 'fopen' besides
@@ -776,3 +778,6 @@ LUAMOD_API int luaopen_io (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

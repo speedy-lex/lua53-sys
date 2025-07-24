@@ -10,6 +10,10 @@
 
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* test Lua with no compatibility code */
 #undef LUA_COMPAT_MATHLIB
 #undef LUA_COMPAT_IPAIRS
@@ -124,6 +128,10 @@ LUA_API void *debug_realloc (void *ud, void *block,
 
 #define STRCACHE_N	23
 #define STRCACHE_M	5
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

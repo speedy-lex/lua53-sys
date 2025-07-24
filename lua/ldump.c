@@ -18,6 +18,9 @@
 #include "lstate.h"
 #include "lundump.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
   lua_State *L;
@@ -213,3 +216,6 @@ int luaU_dump(lua_State *L, const Proto *f, lua_Writer w, void *data,
   return D.status;
 }
 
+#ifdef __cplusplus
+}
+#endif

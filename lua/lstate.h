@@ -13,6 +13,9 @@
 #include "ltm.h"
 #include "lzio.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 
@@ -248,6 +251,9 @@ LUAI_FUNC CallInfo *luaE_extendCI (lua_State *L);
 LUAI_FUNC void luaE_freeCI (lua_State *L);
 LUAI_FUNC void luaE_shrinkCI (lua_State *L);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

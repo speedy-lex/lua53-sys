@@ -21,6 +21,9 @@
 #include "lstate.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 CClosure *luaF_newCclosure (lua_State *L, int n) {
   GCObject *o = luaC_newobj(L, LUA_TCCL, sizeCclosure(n));
@@ -149,3 +152,6 @@ const char *luaF_getlocalname (const Proto *f, int local_number, int pc) {
   return NULL;  /* not found */
 }
 
+#ifdef __cplusplus
+}
+#endif

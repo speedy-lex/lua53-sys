@@ -33,6 +33,9 @@
 #include "lualib.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** The whole module only makes sense with LUA_DEBUG on
@@ -1568,3 +1571,6 @@ int luaB_opentests (lua_State *L) {
 
 #endif
 
+#ifdef __cplusplus
+}
+#endif

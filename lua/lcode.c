@@ -35,6 +35,9 @@
 
 #define hasjumps(e)	((e)->t != (e)->f)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** If expression is a numeric constant, fills 'v' with its value
@@ -1201,3 +1204,6 @@ void luaK_setlist (FuncState *fs, int base, int nelems, int tostore) {
   fs->freereg = base + 1;  /* free registers with list values */
 }
 
+#ifdef __cplusplus
+}
+#endif

@@ -23,6 +23,9 @@
 #include "ltm.h"
 #include "lvm.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static const char udatatypename[] = "userdata";
 
@@ -163,3 +166,6 @@ int luaT_callorderTM (lua_State *L, const TValue *p1, const TValue *p2,
     return !l_isfalse(L->top);
 }
 
+#ifdef __cplusplus
+}
+#endif

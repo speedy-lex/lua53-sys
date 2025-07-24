@@ -38,6 +38,9 @@
 #include "ltable.h"
 #include "lvm.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** Maximum size of array part (MAXASIZE) is 2^MAXABITS. MAXABITS is
@@ -685,4 +688,8 @@ Node *luaH_mainposition (const Table *t, const TValue *key) {
 
 int luaH_isdummy (const Table *t) { return isdummy(t); }
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif

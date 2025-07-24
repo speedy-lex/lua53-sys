@@ -17,6 +17,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static lua_State *getco (lua_State *L) {
   lua_State *co = lua_tothread(L, 1);
@@ -166,3 +169,6 @@ LUAMOD_API int luaopen_coroutine (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

@@ -21,6 +21,9 @@
 #include "lstate.h"
 #include "lstring.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MEMERRMSG       "not enough memory"
 
@@ -246,3 +249,6 @@ Udata *luaS_newudata (lua_State *L, size_t s) {
   return u;
 }
 
+#ifdef __cplusplus
+}
+#endif

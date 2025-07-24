@@ -15,6 +15,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if defined(LUA_COMPAT_BITLIB)		/* { */
 
@@ -231,3 +234,7 @@ LUAMOD_API int luaopen_bit32 (lua_State *L) {
 }
 
 #endif					/* } */
+
+#ifdef __cplusplus
+}
+#endif

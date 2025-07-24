@@ -12,6 +12,10 @@
 
 #include "lctype.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !LUA_USE_CTYPE	/* { */
 
 #include <limits.h>
@@ -53,3 +57,7 @@ LUAI_DDEF const lu_byte luai_ctype_[UCHAR_MAX + 2] = {
 };
 
 #endif			/* } */
+
+#ifdef __cplusplus
+}
+#endif

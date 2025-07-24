@@ -29,6 +29,9 @@
 #include "lvm.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 LUAI_DDEF const TValue luaO_nilobject_ = {NILCONSTANT};
 
@@ -520,3 +523,6 @@ void luaO_chunkid (char *out, const char *source, size_t bufflen) {
   }
 }
 
+#ifdef __cplusplus
+}
+#endif

@@ -29,7 +29,9 @@
 #include "lundump.h"
 #include "lvm.h"
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 const char lua_ident[] =
   "$LuaVersion: " LUA_COPYRIGHT " $"
@@ -1296,4 +1298,6 @@ LUA_API void lua_upvaluejoin (lua_State *L, int fidx1, int n1,
   luaC_upvalbarrier(L, *up1);
 }
 
-
+#ifdef __cplusplus
+}
+#endif

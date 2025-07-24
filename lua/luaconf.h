@@ -11,6 +11,9 @@
 #include <limits.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** ===================================================================
@@ -788,3 +791,6 @@
 
 #endif
 
+#ifdef __cplusplus
+}
+#endif

@@ -19,6 +19,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
 ** Operations that an object must define to mimic a table
@@ -448,3 +451,6 @@ LUAMOD_API int luaopen_table (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

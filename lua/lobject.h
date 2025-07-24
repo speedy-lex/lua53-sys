@@ -66,6 +66,10 @@
 #define ctb(t)			((t) | BIT_ISCOLLECTABLE)
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
 ** Common type for all collectable objects
 */
@@ -544,6 +548,9 @@ LUAI_FUNC const char *luaO_pushvfstring (lua_State *L, const char *fmt,
 LUAI_FUNC const char *luaO_pushfstring (lua_State *L, const char *fmt, ...);
 LUAI_FUNC void luaO_chunkid (char *out, const char *source, size_t len);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

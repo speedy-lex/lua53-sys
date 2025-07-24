@@ -23,6 +23,9 @@
 #include "lundump.h"
 #include "lzio.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(luai_verifycode)
 #define luai_verifycode(L,b,f)  /* empty */
@@ -285,3 +288,6 @@ LClosure *luaU_undump(lua_State *L, ZIO *Z, const char *name) {
   return cl;
 }
 
+#ifdef __cplusplus
+}
+#endif

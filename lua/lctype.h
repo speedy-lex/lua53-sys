@@ -16,6 +16,10 @@
 ** optimized for the specific needs of Lua
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(LUA_USE_CTYPE)
 
 #if 'A' == 65 && '0' == 48
@@ -90,6 +94,10 @@ LUAI_DDEC const lu_byte luai_ctype_[UCHAR_MAX + 2];
 #define ltolower(c)	(tolower(c))
 
 #endif			/* } */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

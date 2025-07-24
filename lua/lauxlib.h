@@ -27,6 +27,9 @@
 /* key, in the registry, for table of preloaded loaders */
 #define LUA_PRELOAD_TABLE	"_PRELOAD"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct luaL_Reg {
   const char *name;
@@ -257,7 +260,9 @@ LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname,
 #endif
 /* }============================================================ */
 
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

@@ -20,6 +20,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static int luaB_print (lua_State *L) {
   int n = lua_gettop(L);  /* number of arguments */
@@ -496,3 +499,6 @@ LUAMOD_API int luaopen_base (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

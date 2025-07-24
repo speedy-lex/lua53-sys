@@ -20,6 +20,10 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MAXUNICODE	0x10FFFF
 
 #define iscont(p)	((*(p) & 0xC0) == 0x80)
@@ -254,3 +258,6 @@ LUAMOD_API int luaopen_utf8 (lua_State *L) {
   return 1;
 }
 
+#ifdef __cplusplus
+}
+#endif

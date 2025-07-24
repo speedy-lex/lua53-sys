@@ -27,6 +27,9 @@
 #include "ltable.h"
 #include "ltm.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(LUAI_GCPAUSE)
 #define LUAI_GCPAUSE	200  /* 200% */
@@ -344,4 +347,7 @@ LUA_API void lua_close (lua_State *L) {
   close_state(L);
 }
 
+#ifdef __cplusplus
+}
+#endif
 
