@@ -66,6 +66,7 @@ fn main() {
     if cfg!(feature = "baremetal") {
         cc_config_build
             .cpp(true)
+            .cpp_link_stdlib(None)
             .include(&libc)
             .flag("-fexceptions");
     }
