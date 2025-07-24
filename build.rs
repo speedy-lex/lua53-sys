@@ -1,5 +1,7 @@
 use std::{env, path::PathBuf};
 
+use bindgen::MacroTypeVariation;
+
 fn main() {
     let lua_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("lua");
     let out = PathBuf::from(env::var_os("OUT_DIR").unwrap());
@@ -76,6 +78,7 @@ fn main() {
         .header("lua/lua.h")
         .header("lua/lualib.h")
         .header("lua/lauxlib.h")
+        .default_macro_constant_type(MacroTypeVariation::Signed)
         .clang_arg("-fvisibility=default");
 
     if cfg!(feature = "baremetal") {
