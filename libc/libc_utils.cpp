@@ -119,9 +119,41 @@ void *memchr (const void *buf, int ch, size_t len) {
 
 // stdio.h (-snprintf)
 FILE *_stdout = NULL;
+FILE *_stderr = NULL;
+FILE *_stdin = NULL;
 
+int fflush(FILE *) {
+	return 0;
+}
+int feof(FILE *) {
+	return 0;
+}
+int ferror(FILE *) {
+	return 0;
+}
+int getc(FILE *) {
+	return EOF;
+}
+
+size_t fread(void *__restrict, size_t, size_t, FILE *__restrict) {
+	return 0;
+}
 size_t fwrite(const void *__restrict buf, size_t s, size_t len, FILE *__restrict f) {
 	return len; // yup trust me bro
+}
+
+int fprintf(FILE *__restrict, const char *__restrict, ...) {
+	return 0;
+}
+
+FILE *fopen(const char *__restrict, const char *__restrict) {
+	return NULL;
+}
+FILE *freopen(const char *__restrict, const char *__restrict, FILE *__restrict) {
+	return NULL;
+}
+int fclose(FILE *) {
+	return 0;
 }
 
 int fflush(FILE *f) {
