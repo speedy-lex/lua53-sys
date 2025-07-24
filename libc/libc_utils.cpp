@@ -41,17 +41,30 @@ int strcmp(const char *a, const char *b) {
         unsigned char ca = (unsigned char)a[i];
         unsigned char cb = (unsigned char)b[i];
 
-        if(ca < cb) {
-            return -1;
+        if (ca != cb) {
+            return ca - cb;
         }
-        if(ca > cb) {
-            return -1;
-        }
-        if(ca == 0 && cb == 0) { // reached terminator
+        if(ca == 0) { // reached terminator
             return 0;
         }
         i++;
     }
+}
+int strncmp(const char *a, const char *b, size_t max) {
+    size_t i = 0;
+    while(i < max) {
+        unsigned char ca = (unsigned char)a[i];
+        unsigned char cb = (unsigned char)b[i];
+
+        if (ca != cb) {
+            return ca - cb;
+        }
+        if(ca == 0) { // reached terminator
+            return 0;
+        }
+        i++;
+    }
+	return 0;
 }
 
 char *strpbrk (const char *dest, const char *breakset) {
@@ -104,8 +117,7 @@ int memcmp (const void *a, const void *b, size_t len) {
 	const unsigned char *bBytes = (const unsigned char *)b;
 
 	for(size_t i = 0; i < len; i++) {
-		if(aBytes[i] < bBytes[i]) return -1;
-		if(aBytes[i] > bBytes[i]) return 1;
+		if(aBytes[i] != bBytes[i]) return aBytes[i] - bBytes[i];
 	}
 	return 0;
 }
