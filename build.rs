@@ -30,18 +30,14 @@ fn main() {
         .file(lua_dir.join("lcode.c"))
         .file(lua_dir.join("lcorolib.c"))
         .file(lua_dir.join("lctype.c"))
-        .file(lua_dir.join("ldblib.c"))
         .file(lua_dir.join("ldebug.c"))
         .file(lua_dir.join("ldo.c"))
         .file(lua_dir.join("ldump.c"))
         .file(lua_dir.join("lfunc.c"))
         .file(lua_dir.join("lgc.c"))
-        .file(lua_dir.join("liolib.c"))
         .file(lua_dir.join("llex.c"))
         .file(lua_dir.join("lmathlib.c"))
-        .file(lua_dir.join("lauxlib.c"))
         .file(lua_dir.join("lmem.c"))
-        .file(lua_dir.join("loadlib.c"))
         .file(lua_dir.join("lobject.c"))
         .file(lua_dir.join("lopcodes.c"))
         .file(lua_dir.join("lparser.c"))
@@ -57,22 +53,34 @@ fn main() {
         .file(lua_dir.join("lzio.c"));
 
     if !cfg!(feature = "baremetal") {
-        cc_config_build = cc_config_build
-            .file(lua_dir.join("loslib.c"))
-            .file(lua_dir.join("linit.c"));
+        cc_config_build
+            .file(lua_dir.join("ldblib.c"))
+            .file(lua_dir.join("liolib.c"))
+            .file(lua_dir.join("lauxlib.c"))
+            .file(lua_dir.join("loadlib.c"));
+    }
+
+    let libc = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc");
+    if cfg!(feature = "baremetal") {
+        cc_config_build
+            .cpp(true)
+            .include(&libc)
+            .flag("-fexceptions");
     }
 
     cc_config_build
-            .out_dir(out.join("lib"))
-            .compile("lua53");
+        .out_dir(out.join("lib"))
+        .compile("lua53");
 
-    let bindings = bindgen::builder()
+    let mut bindings = bindgen::builder()
         .header("lua/lua.h")
         .header("lua/lualib.h")
         .header("lua/lauxlib.h")
-        .clang_arg("-fvisibility=default")
-        .generate()
-        .unwrap();
+        .clang_arg("-fvisibility=default");
 
-    bindings.write_to_file(out.join("bindings.rs")).unwrap();
+    if cfg!(feature = "baremetal") {
+        bindings = bindings
+            .clang_arg(format!("-I{}", libc.display()));
+    }
+    bindings.generate().unwrap().write_to_file(out.join("bindings.rs")).unwrap();
 }
