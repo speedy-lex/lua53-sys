@@ -156,6 +156,14 @@ clock_t clock (void) {
 	return 0;
 }
 
+// errno.h
+
+static int error = 0;
+int *__errno_location(void) {
+	return &error;
+}
+
+
 #ifdef __cplusplus
 }
 #endif
