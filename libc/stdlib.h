@@ -5,7 +5,25 @@
 extern "C" {
 #endif
 
+#include <stddef.h>
+
+#define RAND_MAX (0x7fffffff)
+
 int abs (int);
+_Noreturn void abort (void);
+
+int rand (void);
+void srand (unsigned);
+
+char *getenv (const char *);
+
+double strtod (const char *__restrict, char **__restrict);
+
+
+// DO NOT DEFINE THESE
+void *malloc (size_t);
+void *realloc (void *, size_t);
+void free (void *);
 
 #ifdef __cplusplus
 }

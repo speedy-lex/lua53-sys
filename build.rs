@@ -36,7 +36,7 @@ fn main() {
         .file(lua_dir.join("ldump.c"))
         .file(lua_dir.join("lfunc.c"))
         .file(lua_dir.join("lgc.c"))
-        .file(lua_dir.join("liolib.c"))
+        // .file(lua_dir.join("liolib.c"))
         .file(lua_dir.join("llex.c"))
         .file(lua_dir.join("lmathlib.c"))
         .file(lua_dir.join("lauxlib.c"))
@@ -56,16 +56,12 @@ fn main() {
         .file(lua_dir.join("lvm.c"))
         .file(lua_dir.join("lzio.c"));
 
-    if !cfg!(feature = "baremetal") {
-        cc_config_build = cc_config_build
-            .file(lua_dir.join("loslib.c"))
-            .file(lua_dir.join("linit.c"));
-    }
-
+    let libc = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc");
     cc_config_build
         .cpp(true)
-        .include(PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc"))
+        .include(&libc)
         .out_dir(out.join("lib"))
+        .flag("-fexceptions")
         .compile("lua53");
 
     let bindings = bindgen::builder()
@@ -73,6 +69,7 @@ fn main() {
         .header("lua/lualib.h")
         .header("lua/lauxlib.h")
         .clang_arg("-fvisibility=default")
+        .clang_arg(format!("-I{}", libc.display()))
         .generate()
         .unwrap();
 
