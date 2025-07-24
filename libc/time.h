@@ -8,6 +8,8 @@ extern "C" {
 typedef long long time_t;
 typedef int clock_t;
 
+#define CLOCKS_PER_SEC 1
+
 time_t time (time_t *);
 clock_t clock (void);
 

@@ -53,21 +53,21 @@ fn main() {
         .file(lua_dir.join("lutf8lib.c"))
         .file(lua_dir.join("lvm.c"))
         .file(lua_dir.join("lzio.c"));
+    
+    let libc = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc");
 
-    if !cfg!(feature = "baremetal") {
+    if cfg!(feature = "baremetal") {
+        cc_config_build
+            .cpp(true)
+            .include(&libc)
+            .file(libc.join("libc_utils.cpp"))
+            .flag("-fexceptions");
+    } else {
         cc_config_build
             .file(lua_dir.join("ldblib.c"))
             .file(lua_dir.join("liolib.c"))
             .file(lua_dir.join("lauxlib.c"))
             .file(lua_dir.join("loadlib.c"));
-    }
-
-    let libc = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc");
-    if cfg!(feature = "baremetal") {
-        cc_config_build
-            .cpp(true)
-            .include(&libc)
-            .flag("-fexceptions");
     }
 
     cc_config_build
@@ -79,6 +79,7 @@ fn main() {
         .header("lua/lualib.h")
         .header("lua/lauxlib.h")
         .default_macro_constant_type(MacroTypeVariation::Signed)
+        .clang_arg(format!("-I{}", libc.display()))
         .clang_arg("-fvisibility=default");
 
     if cfg!(feature = "baremetal") {

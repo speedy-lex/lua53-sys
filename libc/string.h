@@ -15,6 +15,7 @@ char *strpbrk (const char *, const char *);
 char *strcpy(char *__restrict, const char *__restrict);
 int strcoll (const char *, const char *);
 
+void *memset(void *buf, int byte, size_t len);
 void *memcpy(void *, const void *, size_t);
 int memcmp (const void *, const void *, size_t);
 void *memchr (const void *, int, size_t);

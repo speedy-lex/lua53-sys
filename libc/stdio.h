@@ -9,8 +9,8 @@ extern "C" {
 
 typedef void FILE;
 
-FILE *stdout = 0;
-#define stdout (stdout)
+extern FILE *_stdout;
+#define stdout (_stdout)
 
 size_t fwrite(const void *__restrict, size_t, size_t, FILE *__restrict);
 int fflush(FILE *);
