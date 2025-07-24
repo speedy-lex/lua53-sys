@@ -86,5 +86,5 @@ fn main() {
         bindings = bindings
             .clang_arg(format!("-I{}", libc.display()));
     }
-    bindings.generate().unwrap().write_to_file(out.join("bindings.rs")).unwrap();
+    bindings.use_core().generate().unwrap().write_to_file(out.join("bindings.rs")).unwrap();
 }
