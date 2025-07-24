@@ -79,7 +79,6 @@ fn main() {
         .header("lua/lualib.h")
         .header("lua/lauxlib.h")
         .default_macro_constant_type(MacroTypeVariation::Signed)
-        .clang_arg(format!("-I{}", libc.display()))
         .clang_arg("-fvisibility=default");
 
     if cfg!(feature = "baremetal") {
