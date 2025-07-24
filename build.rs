@@ -28,6 +28,7 @@ fn main() {
 
     cc_config_build = cc_config_build
         .file(lua_dir.join("lapi.c"))
+        .file(lua_dir.join("lauxlib.c"))
         .file(lua_dir.join("lbaselib.c"))
         .file(lua_dir.join("lcode.c"))
         .file(lua_dir.join("lcorolib.c"))
@@ -67,7 +68,6 @@ fn main() {
         cc_config_build
             .file(lua_dir.join("ldblib.c"))
             .file(lua_dir.join("liolib.c"))
-            .file(lua_dir.join("lauxlib.c"))
             .file(lua_dir.join("loadlib.c"));
     }
 

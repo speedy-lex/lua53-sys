@@ -2,7 +2,7 @@
 mod bindings {
     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 }
-#[feature(baremetal)]
+#[cfg(feature = "baremetal")]
 mod libc;
 
 pub use bindings::*;

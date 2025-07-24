@@ -11,9 +11,13 @@ char *strchr (const char *, int);
 size_t strspn (const char *, const char *);
 size_t strlen (const char *);
 int strcmp (const char *, const char *);
+int strncmp (const char *, const char *, size_t);
+char *strstr (const char *, const char *);
 char *strpbrk (const char *, const char *);
 char *strcpy(char *__restrict, const char *__restrict);
 int strcoll (const char *, const char *);
+
+char *strerror (int);
 
 void *memset(void *buf, int byte, size_t len);
 void *memcpy(void *, const void *, size_t);

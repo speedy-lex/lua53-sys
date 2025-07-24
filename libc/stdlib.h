@@ -17,6 +17,10 @@ void srand (unsigned);
 
 double strtod (const char *__restrict, char **__restrict);
 
+void *malloc (size_t);
+void *realloc (void *, size_t);
+void free (void *);
+
 #ifdef __cplusplus
 }
 #endif

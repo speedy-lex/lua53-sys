@@ -139,7 +139,7 @@ _Noreturn void abort (void) {
 }
 
 // taken from https://git.musl-libc.org/cgit/musl/tree/src/prng/rand.c
-size_t _rand_seed = 694201337;
+unsigned long long _rand_seed = 694201337;
 
 int rand (void) {
 	_rand_seed = 6364136223846793005ULL*_rand_seed + 1;
