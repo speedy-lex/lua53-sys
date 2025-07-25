@@ -92,6 +92,10 @@ int strcoll (const char *a, const char *b) {
 	return strcmp(a, b);
 }
 
+char *strerror (int) {
+	return const_cast<char*>("unsupported");
+}
+
 void *memset(void *buf, int byte, size_t len) {
     if(buf == NULL) return NULL;
     unsigned char *bytes = (unsigned char *)buf;
