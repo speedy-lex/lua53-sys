@@ -67,6 +67,26 @@ int strncmp(const char *a, const char *b, size_t max) {
 	return 0;
 }
 
+char *strstr (const char *haystack, const char *needle) {
+	if (!*needle) return (char *)haystack;
+
+	for (; *haystack; ++haystack) {
+        const char *h = haystack;
+        const char *n = needle;
+
+        while (*h && *n && (*h == *n)) {
+            ++h;
+            ++n;
+        }
+
+        if (!*n) {
+            return (char *)haystack; // full match found
+        }
+    }
+
+	return NULL;
+}
+
 char *strpbrk (const char *dest, const char *breakset) {
 	for(size_t i = 0; dest[i]; i++) {
 		if(strchr(breakset, dest[i]) != NULL) {
