@@ -63,6 +63,7 @@ fn main() {
             .cpp_link_stdlib(None)
             .include(&libc)
             .file(libc.join("libc_utils.cpp"))
+            .file(libc.join("libcpp_throw.cpp"))
             .flag("-fexceptions");
     } else {
         cc_config_build
