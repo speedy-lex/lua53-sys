@@ -38,7 +38,6 @@ fn main() {
         .file(lua_dir.join("ldump.c"))
         .file(lua_dir.join("lfunc.c"))
         .file(lua_dir.join("lgc.c"))
-        .file(lua_dir.join("linit.c"))
         .file(lua_dir.join("llex.c"))
         .file(lua_dir.join("lmathlib.c"))
         .file(lua_dir.join("lmem.c"))
@@ -70,6 +69,7 @@ fn main() {
             .flag("-fwasm-exceptions");
     } else {
         cc_config_build
+            .file(lua_dir.join("linit.c"))
             .file(lua_dir.join("ldblib.c"))
             .file(lua_dir.join("liolib.c"))
             .file(lua_dir.join("loadlib.c"));
