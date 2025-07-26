@@ -1,5 +1,5 @@
-use core::ffi::c_void;
 use core::alloc::Layout;
+use core::ffi::c_void;
 use std::alloc;
 
 fn align_up(size: usize, align: usize) -> usize {

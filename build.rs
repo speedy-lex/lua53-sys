@@ -11,7 +11,7 @@ fn main() {
 
     let mut cc_config = cc::Build::new();
     cc_config.warnings(false);
-    
+
     if target_os == Ok("linux".to_string()) {
         cc_config.define("LUA_USE_LINUX", None);
     } else if target_os == Ok("macos".to_string()) {
@@ -54,7 +54,7 @@ fn main() {
         .file(lua_dir.join("lutf8lib.c"))
         .file(lua_dir.join("lvm.c"))
         .file(lua_dir.join("lzio.c"));
-    
+
     let libc = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc");
 
     if cfg!(feature = "baremetal") {
@@ -80,9 +80,7 @@ fn main() {
             .file(lua_dir.join("loadlib.c"));
     }
 
-    cc_config_build
-        .out_dir(out.join("lib"))
-        .compile("lua53");
+    cc_config_build.out_dir(out.join("lib")).compile("lua53");
 
     let mut bindings = bindgen::builder()
         .header("lua/lua.h")
@@ -92,10 +90,14 @@ fn main() {
         .clang_arg("-fvisibility=default");
 
     if cfg!(feature = "baremetal") {
-        bindings = bindings
-            .clang_arg(format!("-I{}", libc.display()));
+        bindings = bindings.clang_arg(format!("-I{}", libc.display()));
     }
-    bindings.use_core().generate().unwrap().write_to_file(out.join("bindings.rs")).unwrap();
+    bindings
+        .use_core()
+        .generate()
+        .unwrap()
+        .write_to_file(out.join("bindings.rs"))
+        .unwrap();
     println!("cargo::rerun-if-changed=libc/libc_utils.cpp");
     println!("cargo::rerun-if-changed=libc/libcpp_throw.cpp");
 }

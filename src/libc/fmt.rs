@@ -33,7 +33,44 @@ macro_rules! cc {
     };
 }
 
-const DIGITS: [c_char; 36] = [cc!('0'), cc!('1'), cc!('2'), cc!('3'), cc!('4'), cc!('5'), cc!('6'), cc!('7'), cc!('8'), cc!('9'), cc!('a'), cc!('b'), cc!('c'), cc!('d'), cc!('e'), cc!('f'), cc!('g'), cc!('h'), cc!('i'), cc!('j'), cc!('k'), cc!('l'), cc!('m'), cc!('n'), cc!('o'), cc!('p'), cc!('q'), cc!('r'), cc!('s'), cc!('t'), cc!('u'), cc!('v'), cc!('w'), cc!('x'), cc!('y'), cc!('z')];
+const DIGITS: [c_char; 36] = [
+    cc!('0'),
+    cc!('1'),
+    cc!('2'),
+    cc!('3'),
+    cc!('4'),
+    cc!('5'),
+    cc!('6'),
+    cc!('7'),
+    cc!('8'),
+    cc!('9'),
+    cc!('a'),
+    cc!('b'),
+    cc!('c'),
+    cc!('d'),
+    cc!('e'),
+    cc!('f'),
+    cc!('g'),
+    cc!('h'),
+    cc!('i'),
+    cc!('j'),
+    cc!('k'),
+    cc!('l'),
+    cc!('m'),
+    cc!('n'),
+    cc!('o'),
+    cc!('p'),
+    cc!('q'),
+    cc!('r'),
+    cc!('s'),
+    cc!('t'),
+    cc!('u'),
+    cc!('v'),
+    cc!('w'),
+    cc!('x'),
+    cc!('y'),
+    cc!('z'),
+];
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn _ultoa(mut value: u32, str: *mut c_char, radix: i32) -> *mut c_char {
