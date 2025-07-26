@@ -72,6 +72,7 @@ void _Unwind_RaiseException(_Unwind_Exception *exception_object) {
 }
 
 // In Wasm, a destructor returns its argument
+__attribute__((used, export_name("__cxa_throw")))
 void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void *)) {
     __cxa_eh_globals* globals = __cxa_get_globals();
     globals->uncaughtExceptions += 1; // Not atomically, since globals are thread-local
