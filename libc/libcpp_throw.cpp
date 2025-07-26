@@ -110,7 +110,7 @@ void *__cxa_allocate_exception(size_t thrown_size) throw() {
     char *raw_buffer =
         (char *)malloc(actual_size);
     if (NULL == raw_buffer)
-        abort();
+        std::terminate();
     __cxa_exception *exception_header =
         static_cast<__cxa_exception *>((void *)(raw_buffer));
     memset(exception_header, 0, actual_size);
@@ -124,5 +124,43 @@ void __cxa_free_exception(void *thrown_object) throw() {
     char *raw_buffer =
         ((char *)(static_cast<__cxa_exception*>(thrown_object) - 1));
     free((void *)raw_buffer);
+}
+
+void*
+__cxa_begin_catch(void* unwind_arg) throw()
+{
+    _Unwind_Exception* unwind_exception = static_cast<_Unwind_Exception*>(unwind_arg);
+    bool native_exception = true;//__isOurExceptionClass(unwind_exception);
+    __cxa_eh_globals* globals = __cxa_get_globals();
+    // exception_header is a hackish offset from a foreign exception, but it
+    //   works as long as we're careful not to try to access any __cxa_exception
+    //   parts.
+    __cxa_exception* exception_header =
+            reinterpret_cast<__cxa_exception*>(
+                static_cast<_Unwind_Exception*>(unwind_exception) + 1
+            ) - 1;
+
+    if (native_exception)
+    {
+        // Increment the handler count, removing the flag about being rethrown
+        exception_header->handlerCount = exception_header->handlerCount < 0 ?
+            -exception_header->handlerCount + 1 : exception_header->handlerCount + 1;
+        //  place the exception on the top of the stack if it's not already
+        //    there by a previous rethrow
+        if (exception_header != globals->caughtExceptions)
+        {
+            exception_header->nextException = globals->caughtExceptions;
+            globals->caughtExceptions = exception_header;
+        }
+        globals->uncaughtExceptions -= 1;   // Not atomically, since globals are thread-local
+        return exception_header->adjustedPtr;
+    }
+    // Else this is a foreign exception
+    // If the caughtExceptions stack is not empty, terminate
+    if (globals->caughtExceptions != 0)
+        std::terminate();
+    // Push the foreign exception on to the stack
+    globals->caughtExceptions = exception_header;
+    return unwind_exception + 1;
 }
 }
