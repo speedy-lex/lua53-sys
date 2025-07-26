@@ -38,6 +38,7 @@ fn main() {
         .file(lua_dir.join("ldump.c"))
         .file(lua_dir.join("lfunc.c"))
         .file(lua_dir.join("lgc.c"))
+        .file(lua_dir.join("linit.c"))
         .file(lua_dir.join("llex.c"))
         .file(lua_dir.join("lmathlib.c"))
         .file(lua_dir.join("lmem.c"))
@@ -90,4 +91,6 @@ fn main() {
             .clang_arg(format!("-I{}", libc.display()));
     }
     bindings.use_core().generate().unwrap().write_to_file(out.join("bindings.rs")).unwrap();
+    println!("cargo::rerun-if-changed=libc/libc_utils.cpp");
+    println!("cargo::rerun-if-changed=libc/libcpp_throw.cpp");
 }

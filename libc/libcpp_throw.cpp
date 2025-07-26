@@ -71,8 +71,9 @@ void _Unwind_RaiseException(_Unwind_Exception *exception_object) {
   __builtin_wasm_throw(0, exception_object);
 }
 
+extern "C" {
 // In Wasm, a destructor returns its argument
-__attribute__((used, export_name("__cxa_throw")))
+__attribute__((used))
 void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void *)) {
     __cxa_eh_globals* globals = __cxa_get_globals();
     globals->uncaughtExceptions += 1; // Not atomically, since globals are thread-local
@@ -81,4 +82,5 @@ void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void 
     exception_header->referenceCount = 1; // This is a newly allocated exception, no need for thread safety.
 
     _Unwind_RaiseException(&exception_header->unwindHeader);
+}
 }
