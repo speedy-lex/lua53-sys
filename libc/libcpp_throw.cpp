@@ -1,5 +1,25 @@
+#include <stddef.h>
 
-static struct __cxa_exception {
+// dummy typeinfo since ldo.c does not use rtti
+namespace std {
+
+    using terminate_handler = void (*)();
+    using unexpected_handler = void (*)();
+
+    class type_info {
+    public:
+        virtual ~type_info() {}
+        virtual bool operator==(const type_info& rhs) const { return this == &rhs; }
+        virtual bool operator!=(const type_info& rhs) const { return this != &rhs; }
+        virtual bool before(const type_info& rhs) const { return this < &rhs; }
+        virtual const char* name() const { return "stub"; }
+    };
+}
+
+// its empty since there is no DWARF or itanium
+struct _Unwind_Exception { };
+
+struct __cxa_exception {
     //  Manage the exception object itself.
     std::type_info *exceptionType;
     // In Wasm, a destructor returns its argument
@@ -25,7 +45,7 @@ static struct __cxa_exception {
     _Unwind_Exception unwindHeader;
 };
 
-static struct __cxa_eh_globals {
+struct __cxa_eh_globals {
     __cxa_exception *   caughtExceptions;
     unsigned int        uncaughtExceptions;
 };
@@ -34,6 +54,21 @@ extern "C" {
     static __cxa_eh_globals eh_globals;
     __cxa_eh_globals *__cxa_get_globals() { return &eh_globals; }
     __cxa_eh_globals *__cxa_get_globals_fast() { return &eh_globals; }
+}
+
+__cxa_exception* __cxa_init_primary_exception(void* object, std::type_info* tinfo,
+                                              void *(*dest)(void*)) throw() {
+  __cxa_exception* exception_header = static_cast<__cxa_exception*>(object) - 1;
+  exception_header->referenceCount = 0;
+  exception_header->exceptionType = tinfo;
+  exception_header->exceptionDestructor = dest;
+  return exception_header;
+}
+
+/// Called by __cxa_throw.
+void _Unwind_RaiseException(_Unwind_Exception *exception_object) {
+  // Use Wasm EH's 'throw' instruction.
+  __builtin_wasm_throw(0, exception_object);
 }
 
 // In Wasm, a destructor returns its argument

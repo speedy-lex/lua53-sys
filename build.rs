@@ -64,7 +64,9 @@ fn main() {
             .include(&libc)
             .file(libc.join("libc_utils.cpp"))
             .file(libc.join("libcpp_throw.cpp"))
-            .flag("-fexceptions");
+            .flag("-fno-rtti")
+            .flag("-fexceptions")
+            .flag("-fwasm-exceptions");
     } else {
         cc_config_build
             .file(lua_dir.join("ldblib.c"))
