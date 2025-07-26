@@ -21,6 +21,9 @@ void *malloc (size_t);
 void *realloc (void *, size_t);
 void free (void *);
 
+char *_ltoa(long value, char *str, int radix);
+char *_ultoa(unsigned long value, char *str, int radix);
+
 #ifdef __cplusplus
 }
 #endif

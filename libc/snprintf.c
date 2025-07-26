@@ -192,7 +192,7 @@
  * causing this portable version of snprintf to be called portable_snprintf
  * (and portable_vsnprintf).
  */
-#define HAVE_SNPRINTF
+// #define HAVE_SNPRINTF
 
 /* Define PREFER_PORTABLE_SNPRINTF if your system does have snprintf and
  * vsnprintf but you would prefer to use the portable routine(s) instead.
@@ -221,7 +221,7 @@
  * and snprintf will be a simple wrapper around vsnprintf, at the expense
  * of an extra procedure call.
  */
-/* #define NEED_SNPRINTF_ONLY */
+#define NEED_SNPRINTF_ONLY
 
 /* Define NEED_V?ASN?PRINTF macros if you need library extension
  * routines asprintf, vasprintf, asnprintf, vasnprintf respectively,

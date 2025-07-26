@@ -67,6 +67,11 @@ fn main() {
             .flag("-fno-rtti")
             .flag("-fexceptions")
             .flag("-fwasm-exceptions");
+        cc::Build::new()
+            .file(libc.join("snprintf.c"))
+            .include(&libc)
+            .out_dir(out.join("lib"))
+            .compile("snprintf");
     } else {
         cc_config_build
             .file(lua_dir.join("linit.c"))
