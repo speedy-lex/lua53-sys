@@ -4,6 +4,10 @@
 
 // dummy typeinfo since ldo.c does not use rtti
 namespace std {
+    [[noreturn]] void terminate() {
+        abort();
+        while (1) {}
+    }
 
     using terminate_handler = void (*)();
     using unexpected_handler = void (*)();
