@@ -108,32 +108,7 @@ static bool isDependentException(_Unwind_Exception* unwind_exception) {
     return false; // uhh we cant track this and lua dont have so trust me bro
 }
 
-void __cxa_decrement_exception_refcount(void *thrown_object) throw() {
-    if (thrown_object != NULL )
-    {
-        __cxa_exception* exception_header = static_cast<__cxa_exception*>(thrown_object) - 1;
-        
-        if (--exception_header->referenceCount == 0)
-        {
-            if (NULL != exception_header->exceptionDestructor)
-                exception_header->exceptionDestructor(thrown_object);
-            __cxa_free_exception(thrown_object);
-        }
-    }
-}
-
 extern "C" {
-// In Wasm, a destructor returns its argument
-void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void *)) {
-    __cxa_eh_globals* globals = __cxa_get_globals();
-    globals->uncaughtExceptions += 1; // Not atomically, since globals are thread-local
-
-    __cxa_exception* exception_header = __cxa_init_primary_exception(thrown_object, tinfo, dest);
-    exception_header->referenceCount = 1; // This is a newly allocated exception, no need for thread safety.
-
-    _Unwind_RaiseException(&exception_header->unwindHeader);
-}
-
 //  Allocate a __cxa_exception object, and zero-fill it.
 //  Reserve "thrown_size" bytes on the end for the user's exception
 //  object. Zero-fill the object. If memory can't be allocated, call
@@ -159,6 +134,33 @@ void __cxa_free_exception(void *thrown_object) throw() {
     char *raw_buffer =
         ((char *)(static_cast<__cxa_exception*>(thrown_object) - 1));
     free((void *)raw_buffer);
+}
+}
+
+void __cxa_decrement_exception_refcount(void *thrown_object) throw() {
+    if (thrown_object != NULL )
+    {
+        __cxa_exception* exception_header = static_cast<__cxa_exception*>(thrown_object) - 1;
+        
+        if (--exception_header->referenceCount == 0)
+        {
+            if (NULL != exception_header->exceptionDestructor)
+                exception_header->exceptionDestructor(thrown_object);
+            __cxa_free_exception(thrown_object);
+        }
+    }
+}
+
+extern "C" {
+// In Wasm, a destructor returns its argument
+void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void *)) {
+    __cxa_eh_globals* globals = __cxa_get_globals();
+    globals->uncaughtExceptions += 1; // Not atomically, since globals are thread-local
+
+    __cxa_exception* exception_header = __cxa_init_primary_exception(thrown_object, tinfo, dest);
+    exception_header->referenceCount = 1; // This is a newly allocated exception, no need for thread safety.
+
+    _Unwind_RaiseException(&exception_header->unwindHeader);
 }
 
 void*
