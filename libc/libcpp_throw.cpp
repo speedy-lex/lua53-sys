@@ -1,4 +1,6 @@
 #include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 // dummy typeinfo since ldo.c does not use rtti
 namespace std {
@@ -71,9 +73,18 @@ void _Unwind_RaiseException(_Unwind_Exception *exception_object) {
   __builtin_wasm_throw(0, exception_object);
 }
 
+// Round s up to next multiple of a.
+static inline size_t aligned_allocation_size(size_t s, size_t a) {
+    return (s + a - 1) & ~(a - 1);
+}
+
+static inline size_t cxa_exception_size_from_exception_thrown_size(size_t size) {
+    return aligned_allocation_size(size + sizeof (__cxa_exception),
+                                   alignof(__cxa_exception));
+}
+
 extern "C" {
 // In Wasm, a destructor returns its argument
-__attribute__((used))
 void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void *)) {
     __cxa_eh_globals* globals = __cxa_get_globals();
     globals->uncaughtExceptions += 1; // Not atomically, since globals are thread-local
@@ -82,5 +93,32 @@ void __cxa_throw(void *thrown_object, std::type_info *tinfo, void *(*dest)(void 
     exception_header->referenceCount = 1; // This is a newly allocated exception, no need for thread safety.
 
     _Unwind_RaiseException(&exception_header->unwindHeader);
+}
+
+//  Allocate a __cxa_exception object, and zero-fill it.
+//  Reserve "thrown_size" bytes on the end for the user's exception
+//  object. Zero-fill the object. If memory can't be allocated, call
+//  std::terminate. Return a pointer to the memory to be used for the
+//  user's exception object.
+void *__cxa_allocate_exception(size_t thrown_size) throw() {
+    size_t actual_size = cxa_exception_size_from_exception_thrown_size(thrown_size);
+
+    char *raw_buffer =
+        (char *)malloc(actual_size);
+    if (NULL == raw_buffer)
+        abort();
+    __cxa_exception *exception_header =
+        static_cast<__cxa_exception *>((void *)(raw_buffer));
+    memset(exception_header, 0, actual_size);
+    return static_cast<void*>(exception_header + 1);;
+}
+
+
+//  Free a __cxa_exception object allocated with __cxa_allocate_exception.
+void __cxa_free_exception(void *thrown_object) throw() {
+    // Compute the size of the padding before the header.
+    char *raw_buffer =
+        ((char *)(static_cast<__cxa_exception*>(thrown_object) - 1));
+    free((void *)raw_buffer);
 }
 }
