@@ -53,6 +53,8 @@ fn main() {
         .file(lua_dir.join("lundump.c"))
         .file(lua_dir.join("lutf8lib.c"))
         .file(lua_dir.join("lvm.c"))
+        .file(lua_dir.join("linit.c"))
+        .file(lua_dir.join("ldblib.c"))
         .file(lua_dir.join("lzio.c"));
 
     let libc = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join("libc");
@@ -74,8 +76,6 @@ fn main() {
             .compile("snprintf");
     } else {
         cc_config_build
-            .file(lua_dir.join("linit.c"))
-            .file(lua_dir.join("ldblib.c"))
             .file(lua_dir.join("liolib.c"))
             .file(lua_dir.join("loadlib.c"));
     }
