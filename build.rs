@@ -63,9 +63,13 @@ fn main() {
             .cpp_link_stdlib(None)
             .include(&libc)
             .file(libc.join("libc_utils.cpp"))
-            .flag("-fexceptions");
+            .file(libc.join("libcpp_throw.cpp"))
+            .flag("-fno-rtti")
+            .flag("-fexceptions")
+            .flag("-fwasm-exceptions");
     } else {
         cc_config_build
+            .file(lua_dir.join("linit.c"))
             .file(lua_dir.join("ldblib.c"))
             .file(lua_dir.join("liolib.c"))
             .file(lua_dir.join("loadlib.c"));
@@ -87,4 +91,6 @@ fn main() {
             .clang_arg(format!("-I{}", libc.display()));
     }
     bindings.use_core().generate().unwrap().write_to_file(out.join("bindings.rs")).unwrap();
+    println!("cargo::rerun-if-changed=libc/libc_utils.cpp");
+    println!("cargo::rerun-if-changed=libc/libcpp_throw.cpp");
 }
