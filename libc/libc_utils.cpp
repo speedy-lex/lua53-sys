@@ -227,6 +227,19 @@ void srand (unsigned seed) {
 clock_t clock (void) {
 	return 0;
 }
+double difftime(time_t time_end, time_t time_beg) {
+	return time_end - time_beg;
+}
+time_t mktime(struct tm* arg) {
+	time_t time = 0;
+	time += arg->tm_sec;
+	time += arg->tm_min * 60;
+	time += (arg->tm_hour + arg->tm_isdst) * 60 * 60;
+	time += arg->tm_yday * 60 * 60 * 24;
+	time += (arg->tm_year - 70) * 60 * 60 * 24 * 365;
+	// idk someone do leap days and leap seconds
+	return time;
+}
 
 // errno.h
 
