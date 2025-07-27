@@ -171,6 +171,9 @@ int ferror(FILE *) {
 int getc(FILE *) {
 	return EOF;
 }
+int fputc(int c, FILE *stream) {
+	return 0;
+}
 
 size_t fread(void *__restrict, size_t, size_t, FILE *__restrict) {
 	return 0;
