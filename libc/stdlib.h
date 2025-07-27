@@ -24,6 +24,8 @@ void free (void *);
 char *_ltoa(long value, char *str, int radix);
 char *_ultoa(unsigned long value, char *str, int radix);
 
+char *getenv(const char *name);
+
 #ifdef __cplusplus
 }
 #endif

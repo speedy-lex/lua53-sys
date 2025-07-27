@@ -41,6 +41,7 @@ fn main() {
         .file(lua_dir.join("llex.c"))
         .file(lua_dir.join("lmathlib.c"))
         .file(lua_dir.join("lmem.c"))
+        .file(lua_dir.join("loadlib.c"))
         .file(lua_dir.join("lobject.c"))
         .file(lua_dir.join("lopcodes.c"))
         .file(lua_dir.join("lparser.c"))
@@ -80,7 +81,6 @@ fn main() {
             .file(lua_dir.join("ldblib.c"))
             .file(lua_dir.join("liolib.c"))
             .file(lua_dir.join("linit.c"))
-            .file(lua_dir.join("loadlib.c"))
             .file(lua_dir.join("loslib.c"));
     }
 

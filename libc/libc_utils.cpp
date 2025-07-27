@@ -202,6 +202,10 @@ int abs (int x) {
 _Noreturn void abort (void) {
 	__builtin_trap();
 }
+static char *null_str = const_cast<char*>(""); 
+char *getenv( const char *name ) {
+	return null_str;
+}
 
 // taken from https://git.musl-libc.org/cgit/musl/tree/src/prng/rand.c
 unsigned long long _rand_seed = 694201337;
