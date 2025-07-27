@@ -1,8 +1,10 @@
 // the stuff I didn't write in Rust
 
+#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
+#include <ctype.h>
 #include <locale.h>
 
 #ifdef __cplusplus
@@ -281,6 +283,63 @@ static struct lconv locale = {
 };
 struct lconv *localeconv(void) {
 	return &locale;
+}
+
+// strtod
+
+// we pretend 2nd arg is const because in this household it is
+double strtod(const char *str, char**str_end) {
+	// tightly packed so LLVM makes it smaller (source: it was revealed to blendi in a caffeine overdose and I made it up)
+	double n = 0;
+	bool negative = false;
+	if(*str == '-') {
+		negative = true;
+		str++;
+	}
+	// this can kill itself
+	else if(*str == '+') {
+		str++;
+	}
+	if(!isdigit(*str)) {
+		goto done; // die
+	}
+	while(isdigit(*str)) {
+		n *= 10;
+		n += *str - '0'; // peak gaming
+		str++;
+	}
+	if(*str == '.') {
+		str++;
+		double m = 1;
+		while(isdigit(*str)) {
+			m *= 0.1; // blendi reference
+			n += m * (*str - '0');
+			str++; // important to blendi
+		}
+	}
+	if(*str == 'e') {
+		str++;
+		int exp = 0;
+		bool expNeg = false; // naming variables is my passion
+		if(*str == '-') {
+			expNeg = true;
+			str++;
+		} else if(*str == '+') {
+			str++;
+		}
+		if(!isdigit(*str)) goto done; // invalid !!!!!!!!!
+		while(isdigit(*str)) {
+			exp *= 10;
+			exp += *str - '0';
+			str++;
+		}
+		for(int i = 0; i < exp; i++) n *= expNeg ? 0.1 : 10; // fine blendi, can u fuck off now
+	}
+done:
+	if(str_end != NULL) {
+		*str_end = (char *)str; // source: trust me bro
+	}
+	return negative ? -n : n;
 }
 
 #ifdef __cplusplus
