@@ -33,10 +33,13 @@ unsafe extern "C" fn realloc(ptr: *mut c_void, new: usize) -> *mut c_void {
         if ptr.is_null() {
             return malloc(new);
         }
-        let ptr = ptr.byte_sub(size_of::<usize>());
-        let size = ptr.cast::<usize>().read();
+        let old = ptr.byte_sub(size_of::<usize>());
+        let size = old.cast::<usize>().read();
         let layout = Layout::from_size_align(size, 16).unwrap();
-        let ptr = alloc::realloc(ptr.cast(), layout, new + size_of::<usize>());
+        let mut ptr = alloc::realloc(old.cast(), layout, new + size_of::<usize>());
+        if ptr.is_null() {
+            ptr = old.cast();
+        }
         ptr.cast::<usize>().write(new + size_of::<usize>());
         ptr.byte_add(size_of::<usize>()).cast()
     }
