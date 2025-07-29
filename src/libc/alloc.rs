@@ -29,6 +29,7 @@ unsafe extern "C" fn calloc(num: usize, size: usize) -> *mut c_void {
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn realloc(ptr: *mut c_void, new: usize) -> *mut c_void {
+    let new = align_up(new + size_of::<usize>(), 16);
     unsafe {
         if ptr.is_null() {
             return malloc(new);
@@ -36,11 +37,11 @@ unsafe extern "C" fn realloc(ptr: *mut c_void, new: usize) -> *mut c_void {
         let old = ptr.byte_sub(size_of::<usize>());
         let size = old.cast::<usize>().read();
         let layout = Layout::from_size_align(size, 16).unwrap();
-        let mut ptr = alloc::realloc(old.cast(), layout, new + size_of::<usize>());
+        let mut ptr = alloc::realloc(old.cast(), layout, new);
         if ptr.is_null() {
             ptr = old.cast();
         }
-        ptr.cast::<usize>().write(new + size_of::<usize>());
+        ptr.cast::<usize>().write(new);
         ptr.byte_add(size_of::<usize>()).cast()
     }
 }
