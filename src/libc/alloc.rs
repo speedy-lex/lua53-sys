@@ -9,19 +9,21 @@ fn align_up(size: usize, align: usize) -> usize {
 #[unsafe(no_mangle)]
 unsafe extern "C" fn malloc(size: usize) -> *mut c_void {
     unsafe {
-        let layout = Layout::from_size_align_unchecked(align_up(size + size_of::<usize>(), 16), 16);
+        let size = align_up(size + size_of::<usize>(), 16);
+        let layout = Layout::from_size_align(size, 16).unwrap();
         let ptr = alloc::alloc(layout);
-        ptr.cast::<usize>().write(size + size_of::<usize>());
+        ptr.cast::<usize>().write(size);
         ptr.byte_add(size_of::<usize>()).cast()
     }
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn calloc(num: usize, size: usize) -> *mut c_void {
     let size = num * size;
+    let size = align_up(size + size_of::<usize>(), 16);
     unsafe {
-        let layout = Layout::from_size_align_unchecked(align_up(size + size_of::<usize>(), 16), 16);
+        let layout = Layout::from_size_align(size, 16).unwrap();
         let ptr = alloc::alloc_zeroed(layout);
-        ptr.cast::<usize>().write(size + size_of::<usize>());
+        ptr.cast::<usize>().write(size);
         ptr.byte_add(size_of::<usize>()).cast()
     }
 }
@@ -33,7 +35,7 @@ unsafe extern "C" fn realloc(ptr: *mut c_void, new: usize) -> *mut c_void {
         }
         let ptr = ptr.byte_sub(size_of::<usize>());
         let size = ptr.cast::<usize>().read();
-        let layout = Layout::from_size_align_unchecked(align_up(size, 16), 16);
+        let layout = Layout::from_size_align(size, 16).unwrap();
         let ptr = alloc::realloc(ptr.cast(), layout, new + size_of::<usize>());
         ptr.cast::<usize>().write(new + size_of::<usize>());
         ptr.byte_add(size_of::<usize>()).cast()
@@ -47,7 +49,7 @@ unsafe extern "C" fn free(ptr: *mut c_void) {
     unsafe {
         let ptr = ptr.byte_sub(size_of::<usize>());
         let size = ptr.cast::<usize>().read();
-        let layout = Layout::from_size_align_unchecked(size, 16);
+        let layout = Layout::from_size_align(size, 16).unwrap();
         alloc::dealloc(ptr.cast(), layout);
     }
 }
