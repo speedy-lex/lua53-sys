@@ -29,27 +29,28 @@ unsafe extern "C" fn calloc(num: usize, size: usize) -> *mut c_void {
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn realloc(ptr: *mut c_void, new: usize) -> *mut c_void {
-    unsafe {
-        if ptr.is_null() {
-            return malloc(new);
-        }
-        let ptr = ptr.byte_sub(size_of::<usize>());
-        let size = ptr.cast::<usize>().read();
-        let layout = Layout::from_size_align(size, 16).unwrap();
-        let ptr = alloc::realloc(ptr.cast(), layout, new + size_of::<usize>());
-        ptr.cast::<usize>().write(new + size_of::<usize>());
-        ptr.byte_add(size_of::<usize>()).cast()
-    }
+    // unsafe {
+    //     if ptr.is_null() {
+    //         return malloc(new);
+    //     }
+    //     let ptr = ptr.byte_sub(size_of::<usize>());
+    //     let size = ptr.cast::<usize>().read();
+    //     let layout = Layout::from_size_align(size, 16).unwrap();
+    //     let ptr = alloc::realloc(ptr.cast(), layout, new + size_of::<usize>());
+    //     ptr.cast::<usize>().write(new + size_of::<usize>());
+    //     ptr.byte_add(size_of::<usize>()).cast()
+    // }
+    std::ptr::null_mut()
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn free(ptr: *mut c_void) {
-    if ptr.is_null() {
-        return;
-    }
-    unsafe {
-        let ptr = ptr.byte_sub(size_of::<usize>());
-        let size = ptr.cast::<usize>().read();
-        let layout = Layout::from_size_align(size, 16).unwrap();
-        alloc::dealloc(ptr.cast(), layout);
-    }
+    // if ptr.is_null() {
+    //     return;
+    // }
+    // unsafe {
+    //     let ptr = ptr.byte_sub(size_of::<usize>());
+    //     let size = ptr.cast::<usize>().read();
+    //     let layout = Layout::from_size_align(size, 16).unwrap();
+    //     alloc::dealloc(ptr.cast(), layout);
+    // }
 }
