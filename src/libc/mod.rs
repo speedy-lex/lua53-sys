@@ -1,3 +1,4 @@
+#[cfg(feature = "alloc")]
 mod alloc;
 mod ctype;
 mod fmt;
