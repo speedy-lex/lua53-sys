@@ -12,6 +12,9 @@ unsafe extern "C" fn malloc(size: usize) -> *mut c_void {
         let size = align_up(size + size_of::<usize>(), 16);
         let layout = Layout::from_size_align(size, 16).unwrap();
         let ptr = alloc::alloc(layout);
+        if ptr.is_null() {
+            return ptr.cast();
+        }
         ptr.cast::<usize>().write(size);
         ptr.byte_add(size_of::<usize>()).cast()
     }
@@ -23,6 +26,9 @@ unsafe extern "C" fn calloc(num: usize, size: usize) -> *mut c_void {
     unsafe {
         let layout = Layout::from_size_align(size, 16).unwrap();
         let ptr = alloc::alloc_zeroed(layout);
+        if ptr.is_null() {
+            return ptr.cast();
+        }
         ptr.cast::<usize>().write(size);
         ptr.byte_add(size_of::<usize>()).cast()
     }
@@ -37,9 +43,9 @@ unsafe extern "C" fn realloc(ptr: *mut c_void, new: usize) -> *mut c_void {
         let old = ptr.byte_sub(size_of::<usize>());
         let size = old.cast::<usize>().read();
         let layout = Layout::from_size_align(size, 16).unwrap();
-        let mut ptr = alloc::realloc(old.cast(), layout, new);
+        let ptr = alloc::realloc(old.cast(), layout, new);
         if ptr.is_null() {
-            ptr = old.cast();
+            return ptr.cast();
         }
         ptr.cast::<usize>().write(new);
         ptr.byte_add(size_of::<usize>()).cast()
