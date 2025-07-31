@@ -4,8 +4,12 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-baremetal = []
+alloc = [] # use our alloc for baremetal
+baremetal = ["libm"]
 
 [build-dependencies]
 bindgen = "0.72.0"
 cc = "1.2.30"
+
+[dependencies]
+libm = { version = "0.2.15", optional = true }

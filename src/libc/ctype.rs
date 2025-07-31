@@ -9,6 +9,14 @@ macro_rules! ret_if_oob {
 }
 
 #[unsafe(no_mangle)]
+extern "C" fn isalpha(x: c_int) -> c_int {
+    ret_if_oob!(x);
+    match x as u8 {
+        b'a'..=b'z' | b'A'..=b'Z' => 1,
+        _ => 0,
+    }
+}
+#[unsafe(no_mangle)]
 extern "C" fn isalnum(x: c_int) -> c_int {
     ret_if_oob!(x);
     match x as u8 {
