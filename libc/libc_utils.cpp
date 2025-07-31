@@ -300,13 +300,15 @@ double strtod(const char *str, char**str_end) {
 	else if(*str == '+') {
 		str++;
 	}
-	if(!isdigit(*str)) {
-		goto done; // die
-	}
-	while(isdigit(*str)) {
-		n *= 10;
-		n += *str - '0'; // peak gaming
-		str++;
+	if(*str != '.') {
+		if(!isdigit(*str)) {
+			goto done; // die
+		}
+		while(isdigit(*str)) {
+			n *= 10;
+			n += *str - '0'; // peak gaming
+			str++;
+		}
 	}
 	if(*str == '.') {
 		str++;
