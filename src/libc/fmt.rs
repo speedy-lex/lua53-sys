@@ -95,6 +95,6 @@ unsafe extern "C" fn _ultoa(mut value: u32, str: *mut c_char, radix: i32) -> *mu
         unsafe { str.add(j).write(buf[i]) };
         j += 1;
     }
-    str.add(j).write(b'\0' as c_char);
+    unsafe { str.add(j).write(0 as c_char) };
     str
 }
