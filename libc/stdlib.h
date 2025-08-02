@@ -23,6 +23,7 @@ void free (void *);
 
 char *_ltoa(long value, char *str, int radix);
 char *_ultoa(unsigned long value, char *str, int radix);
+char *_dtoa(double value, char *str, size_t precision);
 
 char *getenv(const char *name);
 
