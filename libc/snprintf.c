@@ -936,8 +936,8 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
         break;
       }
       case 'g':
-        str_arg_l += strlen(_dtoa(va_arg(ap, double), tmp+str_arg_l, precision));
-        str_arg = tmp; str_arg_l = 0;
+        str_arg_l = strlen(_dtoa(va_arg(ap, double), tmp+str_arg_l, precision));
+        str_arg = tmp;
         break;
       default: /* unrecognized conversion specifier, keep format string as-is*/
         zero_padding = 0;  /* turn zero padding off for non-numeric convers. */
