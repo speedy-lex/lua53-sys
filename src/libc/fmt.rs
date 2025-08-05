@@ -107,7 +107,8 @@ unsafe extern "C" fn _dtoa(value: f64, str: *mut c_char, precision: usize) -> *m
     // exp notation starts with e-5 and e+precision
     let f = if digits >= precision as i32 || digits <= -5 {
         let corrected_val = value / 10f64.powi(digits);
-        format!("{corrected_val:.*}e{digits:+}", precision - 1)
+        let t = format!("{corrected_val:.*}", precision - 1);
+        format!("{}e{digits:+}", t.trim_end_matches('0').trim_end_matches('.'))
     } else {
         format!("{value:.*}", decimal_places as _)
     };
