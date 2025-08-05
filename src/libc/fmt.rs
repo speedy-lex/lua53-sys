@@ -101,6 +101,12 @@ unsafe extern "C" fn _ultoa(mut value: u32, str: *mut c_char, radix: i32) -> *mu
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn _dtoa(value: f64, str: *mut c_char, precision: usize) -> *mut c_char {
+    if value == 0.0 {
+        unsafe { str.write(b'0' as c_char) };
+        unsafe { str.add(1).write(0) };
+        return str;
+    }
+
     let digits = value.abs().log10().floor() as i32;
     let decimal_places = (precision as i32) - digits - 1;
 
