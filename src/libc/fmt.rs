@@ -100,18 +100,16 @@ unsafe extern "C" fn _ultoa(mut value: u32, str: *mut c_char, radix: i32) -> *mu
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn _dtoa(mut value: f64, str: *mut c_char, precision: usize) -> *mut c_char {
+unsafe extern "C" fn _dtoa(value: f64, str: *mut c_char, precision: usize) -> *mut c_char {
     let digits = value.abs().log10().floor() as i32;
     let decimal_places = (precision as i32) - digits - 1;
-    let pow = 10f64.powi(-decimal_places);
-    value = (value / pow).round() * pow; // TODO: fix rounding here to support numbers like 10^8 and 10^-9 
-    
+
     // exp notation starts with e-5 and e+precision
     let f = if digits >= precision as i32 || digits <= -5 {
         let corrected_val = value / 10f64.powi(digits);
-        format!("{corrected_val}e{digits:+}")
+        format!("{corrected_val:.*}e{digits:+}", precision - 1)
     } else {
-        format!("{value}")
+        format!("{value:.*}", decimal_places as _)
     };
     let formatted = f.trim_end_matches('0').trim_end_matches('.');
 
