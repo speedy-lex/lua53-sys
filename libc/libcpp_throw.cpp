@@ -1,3 +1,5 @@
+// this file is mostly ripped out of emscripten's libc. see their LICENSE here: https://github.com/emscripten-core/emscripten/blob/main/LICENSE
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
